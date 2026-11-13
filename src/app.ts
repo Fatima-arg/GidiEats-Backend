@@ -13,7 +13,7 @@ export const createApp = (): Express => {
   app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
   app.use(
     cors({
-      origin: env.nodeEnv === 'production' ? env.clientUrl.split(',') : true,
+      origin: true,
       credentials: true
     })
   );
