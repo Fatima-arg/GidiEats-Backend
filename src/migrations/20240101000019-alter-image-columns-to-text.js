@@ -14,9 +14,17 @@ module.exports = {
       type: Sequelize.TEXT,
       allowNull: true
     });
+    await queryInterface.changeColumn('users', 'avatar', {
+      type: Sequelize.TEXT,
+      allowNull: true
+    });
   },
 
   async down(queryInterface, Sequelize) {
+    await queryInterface.changeColumn('users', 'avatar', {
+      type: Sequelize.STRING(255),
+      allowNull: true
+    });
     await queryInterface.changeColumn('food_items', 'image', {
       type: Sequelize.STRING(255),
       allowNull: true

@@ -34,8 +34,8 @@ export const createRestaurantSchema = z.object({
   deliveryTimeMin: z.coerce.number().int().min(5).max(240).optional(),
   opensAt: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, 'Use HH:MM format').optional(),
   closesAt: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, 'Use HH:MM format').optional(),
-  logo: z.string().trim().max(500).optional(),
-  coverImage: z.string().trim().max(500).optional(),
+  logo: z.string().trim().max(20000).nullable().optional(),
+  coverImage: z.string().trim().max(20000).nullable().optional(),
   rating: z.coerce.number().min(0).max(5).optional(),
   approvalStatus: z.enum(['PENDING', 'APPROVED', 'REJECTED']).optional(),
   isActive: z.boolean().optional()

@@ -46,7 +46,7 @@ export const updateUserSchema = z.object({
   phone: phoneSchema.optional(),
   role: z.enum(Object.values(ROLES) as [string, ...string[]]).optional(),
   isActive: z.boolean().optional(),
-  avatar: z.string().nullable().optional(),
+  avatar: z.string().trim().max(20000).nullable().optional(),
   password: passwordSchema.optional().or(z.literal('')).transform((v) => (v ? v : undefined)),
   restaff: z
     .object({
@@ -69,7 +69,7 @@ export const updateMeSchema = z.object({
   firstName: nameSchema.optional(),
   lastName: nameSchema.optional(),
   phone: phoneSchema.optional(),
-  avatar: z.string().nullable().optional(),
+  avatar: z.string().trim().max(20000).nullable().optional(),
   password: passwordSchema.optional()
 });
 

@@ -36,7 +36,7 @@ export const createFoodItemSchema = z.object({
   name: z.string().trim().min(2).max(100),
   description: z.string().trim().max(2000).optional(),
   price: z.coerce.number().min(1, 'Price must be greater than 0'),
-  image: z.string().trim().max(5000).nullable().optional(),
+  image: z.string().trim().max(20000).nullable().optional(),
   isAvailable: z.boolean().optional(),
   isFeatured: z.boolean().optional(),
   preparationTimeMin: z.coerce.number().int().min(1).max(240).optional()
@@ -47,7 +47,7 @@ export const updateFoodItemSchema = z.object({
   name: z.string().trim().min(2).max(100).optional(),
   description: z.string().trim().max(2000).nullable().optional(),
   price: z.coerce.number().min(1).optional(),
-  image: z.string().trim().max(5000).nullable().optional(),
+  image: z.string().trim().max(20000).nullable().optional(),
   isAvailable: z.boolean().optional(),
   isFeatured: z.boolean().optional(),
   preparationTimeMin: z.coerce.number().int().min(1).max(240).optional()

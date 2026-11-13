@@ -31,7 +31,7 @@ User.init(
       defaultValue: ROLES.CUSTOMER
     },
     isActive: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },
-    avatar: { type: DataTypes.STRING(255), allowNull: true, defaultValue: null },
+    avatar: { type: DataTypes.TEXT, allowNull: true, defaultValue: null },
     lastLoginAt: { type: DataTypes.DATE, allowNull: true, defaultValue: null },
     createdAt: { type: DataTypes.DATE, allowNull: false },
     updatedAt: { type: DataTypes.DATE, allowNull: false },
