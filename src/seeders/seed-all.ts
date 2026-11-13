@@ -16,6 +16,7 @@ import {
   User, Customer, Restaurant, RestaurantStaff, Rider, Category, FoodItem,
   Address, Order, OrderItem, Payment, Delivery, Notification, OrderStatusHistory
 } from '../models';
+import { seedDrinksAndSmoothies } from './seed-drinks';
 
 const SEED_PASSWORD = env.seedPassword;
 
@@ -991,6 +992,8 @@ const main = async () => {
 
   console.log('  Creating 10 Kano / BUK restaurants, categories and food items...');
   const menu = await seedRestaurantsAndMenu();
+  console.log('  Adding delicious drinks & smoothies...');
+  await seedDrinksAndSmoothies(sequelize);
 
   console.log('  Linking restaurant staff and dedicated riders...');
   for (let i = 0; i < menu.restaurants.length; i++) {

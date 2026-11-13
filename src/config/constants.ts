@@ -84,7 +84,7 @@ export const NOTIFICATION_TYPES = {
 export type NotificationType = (typeof NOTIFICATION_TYPES)[keyof typeof NOTIFICATION_TYPES];
 
 export const DEFAULT_PAGE_SIZE = 20;
-export const MAX_PAGE_SIZE = 100;
+export const MAX_PAGE_SIZE = 500;
 
 /** Order statuses a customer may see as "active" for any given order. */
 export const ACTIVE_ORDER_STATUSES: OrderStatus[] = [

@@ -13,6 +13,7 @@
     "db:create": "sequelize-cli db:create",
     "db:drop": "sequelize-cli db:drop",
     "seed": "tsx src/seeders/seed-all.ts",
+    "seed:drinks": "tsx src/seeders/run-drinks-seed.ts",
     "db:reset": "sequelize-cli db:migrate:undo:all && sequelize-cli db:migrate && tsx src/seeders/seed-all.ts",
     "test": "vitest run",
     "test:watch": "vitest",

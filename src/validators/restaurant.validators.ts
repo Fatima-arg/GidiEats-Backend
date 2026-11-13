@@ -4,7 +4,7 @@ const idSchema = z.coerce.number().int().positive();
 
 export const paginationQuerySchema = z.object({
   page: z.coerce.number().int().positive().optional(),
-  limit: z.coerce.number().int().positive().max(100).optional(),
+  limit: z.coerce.number().int().positive().max(500).optional(),
   search: z.string().trim().max(120).optional(),
   sort: z.string().trim().max(60).optional(),
   order: z.enum(['ASC', 'DESC']).optional()
