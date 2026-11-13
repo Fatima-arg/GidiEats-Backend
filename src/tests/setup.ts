@@ -1,0 +1,13 @@
+process.env.NODE_ENV = 'test';
+process.env.DB_NAME = 'gidieats_test';
+process.env.DB_USER = process.env.DB_USER || 'root';
+process.env.DB_PASSWORD = process.env.DB_PASSWORD || '';
+process.env.DB_HOST = process.env.DB_HOST || '127.0.0.1';
+process.env.DB_PORT = process.env.DB_PORT || '3306';
+process.env.DB_DIALECT = 'mysql';
+process.env.DB_LOGGING = 'false';
+process.env.JWT_SECRET = 'test_only_secret_key';
+process.env.JWT_EXPIRES_IN = '1h';
+process.env.PORT = '0';
+process.env.UPLOAD_DIR = '/tmp/gidieats-test-uploads';
+process.env.CLIENT_URL = 'http://localhost:5173';
