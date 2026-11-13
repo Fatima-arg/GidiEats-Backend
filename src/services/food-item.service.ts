@@ -81,13 +81,14 @@ export const createFoodItem = async (input: Record<string, unknown>, image?: str
   if (category.restaurantId !== Number(input.restaurantId)) {
     throw ApiError.badRequest('Category does not belong to this restaurant');
   }
+  const chosenImage = image !== undefined ? image : ((input.image as string)?.trim() || null);
   return FoodItem.create({
     restaurantId: Number(input.restaurantId),
     categoryId: Number(input.categoryId),
-    name: String(input.name),
-    description: (input.description as string) ?? null,
+    name: String(input.name).trim(),
+    description: (input.description as string)?.trim() || null,
     price: Number(input.price),
-    image: image ?? null,
+    image: chosenImage,
     isAvailable: input.isAvailable !== undefined ? Boolean(input.isAvailable) : true,
     isFeatured: input.isFeatured !== undefined ? Boolean(input.isFeatured) : false,
     preparationTimeMin: input.preparationTimeMin ? Number(input.preparationTimeMin) : 15
@@ -107,7 +108,11 @@ export const updateFoodItem = async (id: number, input: Record<string, unknown>,
   }
 
   const payload: Record<string, unknown> = { ...input };
-  if (image) payload.image = image;
+  if (image !== undefined) {
+    payload.image = image;
+  } else if (input.image !== undefined) {
+    payload.image = typeof input.image === 'string' && input.image.trim() ? input.image.trim() : null;
+  }
   await item.update(payload as never);
   return item;
 };

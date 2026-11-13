@@ -16,11 +16,20 @@ const ensureCanMutate = async (req: Request, itemId?: number) => {
     if ((item as any).restaurantId !== staff.restaurantId) {
       throw ApiError.forbidden('You can only manage food items for your own restaurant');
     }
+  } else {
+    req.body.restaurantId = staff.restaurantId;
   }
 };
 
 export const listFoodItems = asyncHandler(async (req: Request, res: Response) => {
-  const result = await foodItemService.listFoodItems(req.query as foodItemService.FoodItemQuery, { public: !req.user });
+  const user = req.user;
+  const query = { ...(req.query as foodItemService.FoodItemQuery) };
+  if (user?.role === ROLES.RESTAFF && !query.restaurantId) {
+    const { RestaurantStaff } = await import('../models');
+    const staff = await RestaurantStaff.findOne({ where: { userId: user.id } });
+    if (staff) query.restaurantId = staff.restaurantId;
+  }
+  const result = await foodItemService.listFoodItems(query, { public: !user });
   ok(res, result.data, { meta: result.meta });
 });
 
@@ -36,7 +45,9 @@ export const getFoodItem = asyncHandler(async (req: Request, res: Response) => {
 
 export const createFoodItem = asyncHandler(async (req: Request, res: Response) => {
   await ensureCanMutate(req);
-  const imagePath = req.file ? `/uploads/${req.file.filename}` : null;
+  const imagePath = req.file
+    ? `/uploads/${req.file.filename}`
+    : (typeof req.body.image === 'string' && req.body.image.trim() ? req.body.image.trim() : null);
   const item = await foodItemService.createFoodItem(req.body, imagePath);
   created(res, item, 'Food item created');
 });
@@ -44,7 +55,9 @@ export const createFoodItem = asyncHandler(async (req: Request, res: Response) =
 export const updateFoodItem = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params as unknown as { id: number };
   await ensureCanMutate(req, id);
-  const imagePath = req.file ? `/uploads/${req.file.filename}` : undefined;
+  const imagePath = req.file
+    ? `/uploads/${req.file.filename}`
+    : (req.body.image !== undefined ? (typeof req.body.image === 'string' && req.body.image.trim() ? req.body.image.trim() : null) : undefined);
   const item = await foodItemService.updateFoodItem(id, req.body, imagePath);
   ok(res, item, { message: 'Food item updated' });
 });

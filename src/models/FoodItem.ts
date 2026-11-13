@@ -27,7 +27,7 @@ FoodItem.init(
     name: { type: DataTypes.STRING(100), allowNull: false },
     description: { type: DataTypes.TEXT, allowNull: true },
     price: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
-    image: { type: DataTypes.STRING(255), allowNull: true },
+    image: { type: DataTypes.TEXT, allowNull: true },
     isAvailable: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },
     isFeatured: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
     preparationTimeMin: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 15 },
