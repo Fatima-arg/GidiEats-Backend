@@ -4,11 +4,11 @@ import { ORDER_STATUSES, PAYMENT_METHODS, DELIVERY_STATUSES } from '../config/co
 
 export const idParamsSchema = z.object({ id: z.coerce.number().int().positive() });
 export const orderIdParamsSchema = z.object({ orderId: z.coerce.number().int().positive() });
-export const orderNumberParamsSchema = z.object({ orderNumber: z.string().trim().min(6).max(24) });
+export const orderNumberParamsSchema = z.object({ orderNumber: z.string().trim().min(4).max(30) });
 
 export const trackOrderSchema = z.object({
-  orderNumber: z.string().trim().min(6).max(24),
-  phone: z.string().trim().min(6).max(20)
+  orderNumber: z.string().trim().min(4).max(30),
+  phone: z.string().trim().min(6).max(20).optional()
 });
 
 export const guestHistorySchema = z.object({

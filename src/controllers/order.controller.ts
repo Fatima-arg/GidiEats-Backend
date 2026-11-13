@@ -22,6 +22,12 @@ export const trackOrder = asyncHandler(async (req: Request, res: Response) => {
   ok(res, order);
 });
 
+export const trackOrderByNumber = asyncHandler(async (req: Request, res: Response) => {
+  const { orderNumber } = req.params as unknown as { orderNumber: string };
+  const order = await orderService.trackOrder(orderNumber);
+  ok(res, order);
+});
+
 export const guestOrderHistory = asyncHandler(async (req: Request, res: Response) => {
   const orders = await orderService.guestOrderHistory(req.body.phone);
   ok(res, orders);

@@ -8,6 +8,7 @@ import {
   cancelOrderSchema,
   updateOrderStatusSchema,
   assignRiderSchema,
+  orderNumberParamsSchema,
   trackOrderSchema,
   guestHistorySchema,
   confirmReceiptSchema,
@@ -20,6 +21,7 @@ const router = Router();
 
 // Public: guests can place an order (with delivery details), track it and see their history
 router.post('/track', validate(trackOrderSchema), orderController.trackOrder);
+router.get('/track/:orderNumber', validate(orderNumberParamsSchema, 'params'), orderController.trackOrderByNumber);
 router.post('/track/history', validate(guestHistorySchema), orderController.guestOrderHistory);
 router.post(
   '/:id/confirm-receipt',

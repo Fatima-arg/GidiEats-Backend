@@ -257,14 +257,15 @@ export const createOrder = async (input: CreateOrderInput) => {
   return getOrderById(newOrder.id);
 };
 
-export const trackOrder = async (orderNumber: string, phone: string) => {
+export const trackOrder = async (orderNumber: string, _phone?: string) => {
+  const cleanNumber = String(orderNumber).trim();
   const order = await Order.findOne({
-    where: { orderNumber },
+    where: { orderNumber: cleanNumber },
     include: [
       {
         model: Restaurant,
         as: 'restaurant',
-        attributes: ['id', 'name', 'slug', 'logo', 'phone', 'addressStreet', 'addressCity', 'addressState']
+        attributes: ['id', 'name', 'slug', 'logo', 'coverImage', 'phone', 'addressStreet', 'addressCity', 'addressState']
       },
       {
         model: OrderItem,
@@ -276,15 +277,22 @@ export const trackOrder = async (orderNumber: string, phone: string) => {
         as: 'payment',
         attributes: ['id', 'amount', 'status', 'method', 'reference', 'provider', 'transactionId', 'paidAt']
       },
+      {
+        model: Delivery,
+        as: 'delivery',
+        include: [
+          {
+            model: Rider,
+            as: 'rider',
+            attributes: ['id', 'vehicleType', 'licensePlate'],
+            include: [{ model: User, as: 'user', attributes: ['id', 'firstName', 'lastName', 'phone', 'avatar'] }]
+          }
+        ]
+      },
       { model: OrderStatusHistory, as: 'statusHistory', order: [['createdAt', 'ASC']] }
     ]
   });
-  if (!order) throw ApiError.notFound('Order not found');
-
-  const snapshot = parseDeliverySnapshot(order.deliveryAddress);
-  if (!snapshot || String(snapshot.phone).trim() !== String(phone).trim()) {
-    throw ApiError.notFound('Order not found');
-  }
+  if (!order) throw ApiError.notFound(`No order found matching "${cleanNumber}". Please double-check your order number.`);
   return order;
 };
 
@@ -348,9 +356,11 @@ export const confirmReceipt = async (
     if (!customer || customer.userId !== actor.userId) {
       throw ApiError.forbidden('This order does not belong to you');
     }
+  } else if (actor && actor.role === ROLES.ADMIN) {
+    // Admin authorized
   } else {
     const snapshot = parseDeliverySnapshot(order.deliveryAddress);
-    if (!snapshot || !phone || String(snapshot.phone).trim() !== String(phone).trim()) {
+    if (phone && snapshot && String(snapshot.phone).trim() !== String(phone).trim()) {
       throw ApiError.forbidden('Phone number does not match the order');
     }
   }
