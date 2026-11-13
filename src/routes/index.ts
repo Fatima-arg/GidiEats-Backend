@@ -10,6 +10,7 @@ import userRoutes from './user.routes';
 import addressRoutes from './address.routes';
 import notificationRoutes from './notification.routes';
 import dashboardRoutes from './dashboard.routes';
+import uploadRoutes from './upload.routes';
 
 const router = Router();
 
@@ -24,5 +25,6 @@ router.use('/users', userRoutes);
 router.use('/addresses', addressRoutes);
 router.use('/notifications', notificationRoutes);
 router.use('/dashboard', dashboardRoutes);
+router.use('/upload', uploadRoutes);
 
 export default router;
